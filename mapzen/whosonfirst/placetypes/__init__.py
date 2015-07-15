@@ -2,6 +2,7 @@
 __import__('pkg_resources').declare_namespace(__name__)
 
 __PLACETYPES__ = {
+    'microhood': { 'role': 'optional', 'parent': [ 'neighbourhood'] },
     'neighbourhood': { 'role': 'common', 'parent': [ 'locality' ] },
     'locality': { 'role': 'common', 'parent': [ 'county', 'region' ] },
     'county': { 'role': 'common', 'parent': [ 'region' ], },
@@ -20,8 +21,21 @@ class placetype:
         self.placetype = pl
         self.details = __PLACETYPES__[pl]
 
+def is_valid_placetype(pt, role=None):
+
+    if not __PLACETYPES__.get(pt, False):
+        return False
+
+    if role and __PLACETYPES__[pt].get('role', None) != role:
+        return False
+
+    return True
+
 def common():
     return with_role('common')
+
+def optional():
+    return with_role('optional')
 
 def with_role(role):
 
