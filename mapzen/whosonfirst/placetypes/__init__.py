@@ -1,14 +1,77 @@
 # https://pythonhosted.org/setuptools/setuptools.html#namespace-packages
 __import__('pkg_resources').declare_namespace(__name__)
 
+# sudo make me a generic JSON blob other languages can use the same spec?
+# (20150715/thisisaaronland)
+
 __PLACETYPES__ = {
-    'microhood': { 'role': 'optional', 'parent': [ 'neighbourhood'] },
-    'neighbourhood': { 'role': 'common', 'parent': [ 'locality' ] },
-    'locality': { 'role': 'common', 'parent': [ 'county', 'region' ] },
-    'county': { 'role': 'common', 'parent': [ 'region' ], },
-    'region': { 'role': 'common', 'parent': [ 'country' ] },
-    'country': { 'role': 'common', 'parent': [ 'continent' ] },
-    'continent': { 'role': 'common', 'parent': [ ] },
+
+    'venue': {
+        'role': 'common_optional',
+        'parent': [ 'building', 'address', 'campus', 'microhood', 'neighbourhood' ]
+    },
+
+    'building': {
+        'role': 'common_optional',
+        'parent': [ 'address', 'campus', 'microhood', 'neighbourhood' ]
+    },
+
+    'address': {
+        'role': 'common_optional',
+        'parent': [ 'campus', 'microhood', 'neighbourhood' ]
+    },
+    
+    'campus': {
+        'role': 'common_optional',
+        'parent': [ 'microhood', 'neighbourhood' ]
+    },
+
+    'microhood': {
+        'role': 'optional',
+        'parent': [ 'neighbourhood']
+    },
+
+    'neighbourhood': {
+        'role': 'common',
+        'parent': [ 'macrohood', 'locality' ]
+    },
+
+    'macrohood': {
+        'role': 'optional',
+        'parent': [ 'locality']
+    },
+
+    'locality': {
+        'role': 'common',
+        'parent': [ 'county', 'region' ]
+    },
+
+    # 'metro': {},
+
+    'county': {
+        'role': 'common_optional',
+        'parent': [ 'region' ]
+    },
+
+    'region': {
+        'role': 'common',
+        'parent': [ 'country' ]
+    },
+
+    'country': {
+        'role': 'common',
+        'parent': [ 'continent' ]
+    },
+
+    'continent': {
+        'role': 'common',
+        'parent': [ 'planet' ]
+    },
+
+    'planet': {
+        'role': 'common_optional',
+        'parent': []
+    }
 }
 
 class placetype:
@@ -34,8 +97,13 @@ def is_valid_placetype(pt, role=None):
 def common():
     return with_role('common')
 
+def common_optional():
+    return with_role('common_optional')
+
 def optional():
     return with_role('optional')
+
+# allow multiple roles?
 
 def with_role(role):
 
