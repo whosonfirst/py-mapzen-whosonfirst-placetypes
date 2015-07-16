@@ -60,6 +60,11 @@ __PLACETYPES__ = {
 
     'country': {
         'role': 'common',
+        'parent': [ 'empire', 'continent' ]
+    },
+
+    'empire': {
+        'role': 'common_optional',
         'parent': [ 'continent' ]
     },
 
