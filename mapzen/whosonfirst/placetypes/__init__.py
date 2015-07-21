@@ -4,6 +4,9 @@ __import__('pkg_resources').declare_namespace(__name__)
 # sudo make me a generic JSON blob other languages can use the same spec?
 # (20150715/thisisaaronland)
 
+# SUDO PLEASE TO UPDATE TO USE https://github.com/mapzen/whosonfirst-placetypes
+# WHATEVER THAT MEANS IN PRACTICAL TERMS (20150721/thisisaaronland)
+
 __PLACETYPES__ = {
 
     'venue': {
