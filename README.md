@@ -2,7 +2,41 @@
 
 ## Important
 
-This package is currently out of sync with the placetypes defined in [whosonfirst-placetypes](https://github.com/mapzen/whosonfirst-placetypes). The question of how bespoke libraries stay in sync with [those definitions](https://github.com/mapzen/whosonfirst-placetypes/tree/master/placetypes) remains TBD.
+The specification for placetypes is derived from the [whosonfirst-placetypes](https://github.com/mapzen/whosonfirst-placetypes) package. For example:
+
+```
+$> /usr/local/mapzen/whosonfirst-placetypes/bin/compile.py | python -mjson.tool 
+{
+    "102312307": {
+        "name": "country",
+        "names": {},
+        "parent": [
+            102312335,
+            102312309
+        ],
+        "role": "common"
+    },
+    "102312309": {
+        "name": "continent",
+        "names": {},
+        "parent": [
+            102312341
+        ],
+        "role": "common"
+    },
+    "102312311": {
+        "name": "region",
+        "names": {},
+        "parent": [
+            102312307
+        ],
+        "role": "common"
+    }
+    ...
+}
+```
+
+The specification itself is hardcoded in [mapzen/whosonfirst/placetypes/__init__.py](https://github.com/mapzen/py-mapzen-whosonfirst-placetypes/blob/master/mapzen/whosonfirst/placetypes/__init__.py). Whether or the specification can or should be loaded from a config file or equivalent has been left for another day.
 
 ## See also
 
