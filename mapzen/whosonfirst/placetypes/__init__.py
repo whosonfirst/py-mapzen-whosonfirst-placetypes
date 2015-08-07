@@ -92,6 +92,17 @@ class placetype:
         self.placetype = pl
         self.details = __PLACETYPES__[pl]
 
+    def parents(self):
+
+        for p in self.details['parent']:
+            yield placetype(p)
+
+    def __str__(self):
+        return self.placetype
+
+    def __repl__(self):
+        return self.placetype
+
 def is_valid_placetype(pt, role=None):
 
     if not __PLACETYPES__.get(pt, False):
