@@ -1,93 +1,198 @@
 # https://pythonhosted.org/setuptools/setuptools.html#namespace-packages
 __import__('pkg_resources').declare_namespace(__name__)
 
-# sudo make me a generic JSON blob other languages can use the same spec?
-# (20150715/thisisaaronland)
+# Generated from: https://github.com/mapzen/whosonfirst-placetypes/blob/master/bin/compile.py
 
-# SUDO PLEASE TO UPDATE TO USE https://github.com/mapzen/whosonfirst-placetypes
-# WHATEVER THAT MEANS IN PRACTICAL TERMS (20150721/thisisaaronland)
-
-__PLACETYPES__ = {
-
-    'venue': {
-        'role': 'common_optional',
-        'parent': [ 'building', 'address', 'campus', 'microhood', 'neighbourhood' ]
+__SPEC__ = {
+    "102312307": {
+        "name": "country",
+        "names": {},
+        "parent": [
+            102312335,
+            102312309
+        ],
+        "role": "common"
     },
-
-    'building': {
-        'role': 'common_optional',
-        'parent': [ 'address', 'campus', 'microhood', 'neighbourhood' ]
+    "102312309": {
+        "name": "continent",
+        "names": {},
+        "parent": [
+            102312341
+        ],
+        "role": "common"
     },
-
-    'address': {
-        'role': 'common_optional',
-        'parent': [ 'campus', 'microhood', 'neighbourhood' ]
+    "102312311": {
+        "name": "region",
+        "names": {},
+        "parent": [
+            102312307
+        ],
+        "role": "common"
     },
-    
-    'campus': {
-        'role': 'common_optional',
-        'parent': [ 'microhood', 'neighbourhood' ]
+    "102312313": {
+        "name": "county",
+        "names": {},
+        "parent": [
+            102312311
+        ],
+        "role": "common_optional"
     },
-
-    'microhood': {
-        'role': 'optional',
-        'parent': [ 'neighbourhood']
+    "102312317": {
+        "name": "locality",
+        "names": {},
+        "parent": [
+            102312313,
+            102312311
+        ],
+        "role": "common"
     },
-
-    'neighbourhood': {
-        'role': 'common',
-        'parent': [ 'macrohood', 'locality' ]
+    "102312319": {
+        "name": "neighbourhood",
+        "names": {
+            "eng_p": [
+                "neighbourhood",
+                "neighborhood"
+            ]
+        },
+        "parent": [
+            102312323,
+            102312317
+        ],
+        "role": "common"
     },
-
-    'macrohood': {
-        'role': 'optional',
-        'parent': [ 'locality']
+    "102312321": {
+        "name": "microhood",
+        "names": {},
+        "parent": [
+            102312319
+        ],
+        "role": "optional"
     },
-
-    'locality': {
-        'role': 'common',
-        'parent': [ 'county', 'region' ]
+    "102312323": {
+        "name": "macrohood",
+        "names": {},
+        "parent": [
+            102312317
+        ],
+        "role": "optional"
     },
-
-    # 'metro': {},
-
-    'county': {
-        'role': 'common_optional',
-        'parent': [ 'region' ]
+    "102312325": {
+        "name": "venue",
+        "names": {},
+        "parent": [
+            102312327,
+            102312329,
+            102312331,
+            102312321,
+            102312319
+        ],
+        "role": "common_optional"
     },
-
-    'region': {
-        'role': 'common',
-        'parent': [ 'country' ]
+    "102312327": {
+        "name": "building",
+        "names": {},
+        "parent": [
+            102312329,
+            102312331,
+            102312321,
+            102312319
+        ],
+        "role": "common_optional"
     },
-
-    'country': {
-        'role': 'common',
-        'parent': [ 'empire', 'continent' ]
+    "102312329": {
+        "name": "address",
+        "names": {},
+        "parent": [
+            102312331,
+            102312321,
+            102312319
+        ],
+        "role": "common_optional"
     },
-
-    'empire': {
-        'role': 'common_optional',
-        'parent': [ 'continent' ]
+    "102312331": {
+        "name": "campus",
+        "names": {},
+        "parent": [
+            102312321,
+            102312319
+        ],
+        "role": "common_optional"
     },
-
-    'continent': {
-        'role': 'common',
-        'parent': [ 'planet' ]
+    "102312335": {
+        "name": "empire",
+        "names": {},
+        "parent": [
+            102312309
+        ],
+        "role": "common_optional"
     },
-
-    'planet': {
-        'role': 'common_optional',
-        'parent': []
+    "102312341": {
+        "name": "planet",
+        "names": {},
+        "parent": [],
+        "role": "common_optional"
+    },
+    "102320821": {
+        "name": "dependency",
+        "names": {},
+        "parent": [
+            102312307
+        ],
+        "role": "common_optional"
+    },
+    "102322043": {
+        "name": "disputed",
+        "names": {},
+        "parent": [
+            102312307
+        ],
+        "role": "common_optional"
+    },
+    "102371933": {
+        "name": "metroarea",
+        "names": {},
+        "parent": [],
+        "role": "optional"
+    },
+    "136057795": {
+        "name": "timezone",
+        "names": {},
+        "parent": [
+            102312307,
+            102312309,
+            102312341
+        ],
+        "role": "common_optional"
     }
 }
+
+# This is mostly for efficiency of the moment so I don't have to rewrite
+# all the code below (20150807/thisisaaronland)
+
+__PLACETYPES__ = {}
+
+for id, details in __SPEC__.items():
+
+    name = details['name']
+    role = details['role']
+    parents = []
+
+    for pid in details['parent']:
+        _pid = str(pid)
+        _parent = __SPEC__[_pid]
+        parents.append(_parent['name'])
+
+    __PLACETYPES__[name] = {
+        'role': role,
+        'parent': parents
+    }
 
 class placetype:
     
     def __init__(self, pl):
-        
+
         if not __PLACETYPES__.get(pl, False):
-            raise Exception, "Invalid placetype"
+            raise Exception, "Invalid placetype, %s" % pl
 
         self.placetype = pl
         self.details = __PLACETYPES__[pl]
@@ -136,3 +241,11 @@ def with_role(role):
         placetypes.append(pt)
 
     return placetypes
+
+if __name__ == '__main__':
+
+    pt = placetype('timezone')
+    print pt
+
+    for p in pt.parents():
+        print p
