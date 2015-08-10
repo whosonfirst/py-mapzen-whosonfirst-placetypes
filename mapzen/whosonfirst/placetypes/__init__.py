@@ -202,6 +202,20 @@ class placetype:
         for p in self.details['parent']:
             yield placetype(p)
 
+    def ancestors(self, roles=['common'], ancestors=[]):
+
+        for p in self.parents():
+
+            name = str(p)
+            role = p.details['role']
+
+            if not name in ancestors and role in roles:
+                ancestors.append(str(p))
+
+            p.ancestors(roles, ancestors)
+
+        return ancestors
+            
     def __str__(self):
         return self.placetype
 
@@ -244,8 +258,13 @@ def with_role(role):
 
 if __name__ == '__main__':
 
-    pt = placetype('timezone')
+    pt = placetype('neighbourhood')
     print pt
 
     for p in pt.parents():
         print p
+    
+    print "--"
+
+    for a in pt.ancestors():
+        print a
