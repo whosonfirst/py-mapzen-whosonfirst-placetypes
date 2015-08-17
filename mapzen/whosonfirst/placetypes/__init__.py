@@ -3,173 +3,13 @@ __import__('pkg_resources').declare_namespace(__name__)
 
 # Generated from: https://github.com/mapzen/whosonfirst-placetypes/blob/master/bin/compile.py
 
-__SPEC__ = {
-    "102312307": {
-        "name": "country",
-        "names": {},
-        "parent": [
-            102312335,
-            102312309
-        ],
-        "role": "common"
-    },
-    "102312309": {
-        "name": "continent",
-        "names": {},
-        "parent": [
-            102312341
-        ],
-        "role": "common"
-    },
-    "102312311": {
-        "name": "region",
-        "names": {},
-        "parent": [
-            102312307
-        ],
-        "role": "common"
-    },
-    "102312313": {
-        "name": "county",
-        "names": {},
-        "parent": [
-            102312311
-        ],
-        "role": "common_optional"
-    },
-    "102312317": {
-        "name": "locality",
-        "names": {},
-        "parent": [
-            102312313,
-            102312311
-        ],
-        "role": "common"
-    },
-    "102312319": {
-        "name": "neighbourhood",
-        "names": {
-            "eng_p": [
-                "neighbourhood",
-                "neighborhood"
-            ]
-        },
-        "parent": [
-            102312323,
-            102312317
-        ],
-        "role": "common"
-    },
-    "102312321": {
-        "name": "microhood",
-        "names": {},
-        "parent": [
-            102312319
-        ],
-        "role": "optional"
-    },
-    "102312323": {
-        "name": "macrohood",
-        "names": {},
-        "parent": [
-            102312317
-        ],
-        "role": "optional"
-    },
-    "102312325": {
-        "name": "venue",
-        "names": {},
-        "parent": [
-            102312327,
-            102312329,
-            102312331,
-            102312321,
-            102312319
-        ],
-        "role": "common_optional"
-    },
-    "102312327": {
-        "name": "building",
-        "names": {},
-        "parent": [
-            102312329,
-            102312331,
-            102312321,
-            102312319
-        ],
-        "role": "common_optional"
-    },
-    "102312329": {
-        "name": "address",
-        "names": {},
-        "parent": [
-            102312331,
-            102312321,
-            102312319
-        ],
-        "role": "common_optional"
-    },
-    "102312331": {
-        "name": "campus",
-        "names": {},
-        "parent": [
-            102312321,
-            102312319
-        ],
-        "role": "common_optional"
-    },
-    "102312335": {
-        "name": "empire",
-        "names": {},
-        "parent": [
-            102312309
-        ],
-        "role": "common_optional"
-    },
-    "102312341": {
-        "name": "planet",
-        "names": {},
-        "parent": [],
-        "role": "common_optional"
-    },
-    "102320821": {
-        "name": "dependency",
-        "names": {},
-        "parent": [
-            102312307
-        ],
-        "role": "common_optional"
-    },
-    "102322043": {
-        "name": "disputed",
-        "names": {},
-        "parent": [
-            102312307
-        ],
-        "role": "common_optional"
-    },
-    "102371933": {
-        "name": "metroarea",
-        "names": {},
-        "parent": [],
-        "role": "optional"
-    },
-    "136057795": {
-        "name": "timezone",
-        "names": {},
-        "parent": [
-            102312307,
-            102312309,
-            102312341
-        ],
-        "role": "common_optional"
-    }
-}
+__SPEC__ = {"102312321": {"role": "optional", "name": "microhood", "parent": [102312319], "names": {}}, "102312323": {"role": "optional", "name": "macrohood", "parent": [102312317], "names": {}}, "102312325": {"role": "common_optional", "name": "venue", "parent": [102312327, 102312329, 102312331, 102312321, 102312319], "names": {}}, "102312327": {"role": "common_optional", "name": "building", "parent": [102312329, 102312331, 102312321, 102312319], "names": {}}, "102312329": {"role": "common_optional", "name": "address", "parent": [102312331, 102312321, 102312319], "names": {}}, "102312319": {"role": "common", "name": "neighbourhood", "parent": [102312323, 102312317], "names": {"eng_p": ["neighbourhood", "neighborhood"]}}, "102312331": {"role": "common_optional", "name": "campus", "parent": [102312321, 102312319], "names": {}}, "102312309": {"role": "common", "name": "continent", "parent": [102312341], "names": {}}, "102371933": {"role": "optional", "name": "metroarea", "parent": [], "names": {}}, "102312307": {"role": "common", "name": "country", "parent": [102312335, 102312309], "names": {}}, "102312335": {"role": "common_optional", "name": "empire", "parent": [102312309], "names": {}}, "102312341": {"role": "common_optional", "name": "planet", "parent": [], "names": {}}, "102312311": {"role": "common", "name": "region", "parent": [102320821, 102312307], "names": {}}, "102312313": {"role": "common_optional", "name": "county", "parent": [102312311], "names": {}}, "102322043": {"role": "common_optional", "name": "disputed", "parent": [102312307], "names": {}}, "102312317": {"role": "common", "name": "locality", "parent": [102312313, 102312311], "names": {}}, "136057795": {"role": "common_optional", "name": "timezone", "parent": [102312307, 102312309, 102312341], "names": {}}, "102320821": {"role": "common_optional", "name": "dependency", "parent": [102312307], "names": {}}}
 
 # This is mostly for efficiency of the moment so I don't have to rewrite
 # all the code below (20150807/thisisaaronland)
 
 __PLACETYPES__ = {}
+__ROLES__ = {}
 
 for id, details in __SPEC__.items():
 
@@ -186,6 +26,9 @@ for id, details in __SPEC__.items():
         'role': role,
         'parent': parents
     }
+
+    if not __ROLES__.get(role, False):
+        __ROLES__[role] = {}
 
 class placetype:
     
@@ -243,13 +86,20 @@ def optional():
 
 # allow multiple roles?
 
+def is_valid_role(role):
+
+    return __ROLES__.has_key(role)
+
 def with_role(role):
+    return with_roles([role])
+
+def with_roles(roles):
 
     placetypes = []
 
     for pt, details in __PLACETYPES__.items():
 
-        if details.get('role', None) != role:
+        if not details.get('role', None) in roles:
             continue
             
         placetypes.append(pt)
