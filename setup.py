@@ -11,7 +11,7 @@ setup(
     version='0.03',
     description='Simple Python wrapper for managing Who\'s On First placetypes',
     author='Mapzen',
-    url='https://github.com/mapzen/py-mapzen-whosonfirst-placetypes',
+    url='https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes',
     install_requires=[
         ],
     dependency_links=[
@@ -19,5 +19,5 @@ setup(
     packages=packages,
     scripts=[
         ],
-    download_url='https://github.com/mapzen/py-mapzen-whosonfirst-placetypes/releases/tag/v0.03',
+    download_url='https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes/releases/tag/v0.03',
     license='BSD')

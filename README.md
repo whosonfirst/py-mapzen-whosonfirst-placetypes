@@ -2,7 +2,7 @@
 
 ## Important
 
-The specification for placetypes is derived from the [whosonfirst-placetypes](https://github.com/mapzen/whosonfirst-placetypes) package. For example:
+The specification for placetypes is derived from the [whosonfirst-placetypes](https://github.com/whosonfirst/whosonfirst-placetypes) package. For example:
 
 ```
 $> /usr/local/mapzen/whosonfirst-placetypes/bin/compile.py | python -mjson.tool 
@@ -36,8 +36,8 @@ $> /usr/local/mapzen/whosonfirst-placetypes/bin/compile.py | python -mjson.tool
 }
 ```
 
-The specification itself is hardcoded in [mapzen/whosonfirst/placetypes/__init__.py](https://github.com/mapzen/py-mapzen-whosonfirst-placetypes/blob/master/mapzen/whosonfirst/placetypes/__init__.py). Whether or the specification can or should be loaded from a config file or equivalent has been left for another day.
+The specification itself is hardcoded in [mapzen/whosonfirst/placetypes/__init__.py](https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes/blob/master/mapzen/whosonfirst/placetypes/__init__.py). Whether or the specification can or should be loaded from a config file or equivalent has been left for another day.
 
 ## See also
 
-* https://github.com/mapzen/whosonfirst-placetypes
+* https://github.com/whosonfirst/whosonfirst-placetypes
