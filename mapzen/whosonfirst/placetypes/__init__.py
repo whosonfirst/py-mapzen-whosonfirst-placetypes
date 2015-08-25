@@ -28,8 +28,22 @@ for id, details in __SPEC__.items():
         'parent': parents
     }
 
+    names = details.get('names', {})
+
+    for label, alts in names.items():
+
+        if not label.endswith("_p"):
+            continue
+
+        for alt in alts:
+            
+            if not __PLACETYPES__.get(alt, False):
+                __PLACETYPES__[alt] = __PLACETYPES__[name]
+
     if not __ROLES__.get(role, False):
         __ROLES__[role] = {}
+
+    # alt names and roles?
 
 class placetype:
     
