@@ -24,11 +24,13 @@ for id, details in __SPEC__.items():
         parents.append(_parent['name'])
 
     __PLACETYPES__[name] = {
+        'id': id,
         'role': role,
         'parent': parents
     }
 
     names = details.get('names', {})
+    __PLACETYPES__[name]['names'] = names
 
     for label, alts in names.items():
 
@@ -54,6 +56,9 @@ class placetype:
 
         self.placetype = pl
         self.details = __PLACETYPES__[pl]
+
+    def id(self):
+        return self.details['id']
 
     def parents(self):
 
