@@ -47,6 +47,21 @@ for id, details in __SPEC__.items():
 
     # alt names and roles?
 
+class placetypename:
+    
+    def __init__(self, label, name):
+
+        lang, kind = label.split("_")
+        self.lang = lang
+        self.kind = kind
+        self.name = name
+
+    def __str__(self):
+        return self.name
+        
+    def __repr__(self):
+        return self.name
+
 class placetype:
     
     def __init__(self, pl):
@@ -59,6 +74,12 @@ class placetype:
 
     def id(self):
         return self.details['id']
+
+    def names(self):
+
+        for label, names in self.details['names'].items():
+            for n in names:
+                yield placetypename(label, n)
 
     def parents(self):
 
