@@ -75,6 +75,9 @@ class placetype:
     def id(self):
         return self.details['id']
 
+    def role(self):
+        return self.details['role']
+
     def names(self):
 
         for label, names in self.details['names'].items():
