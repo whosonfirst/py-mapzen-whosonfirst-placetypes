@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+# -*-python-*-
+
+import sys
+import os
+import logging
+
+import mapzen.whosonfirst.placetypes
+import pygraphviz
+
+def node_args(pt):
+
+    # http://www.graphviz.org/doc/info/attrs.html
+
+    colour_map = {
+        'common': 'blue',
+        'common_optional': 'green',
+        'optional': 'yellow'
+    }
+    
+    args = {
+        'shape': 'box',
+        'color': colour_map.get(pt.role(), 'white')
+    }
+
+    return args
+    
+def graph_kids(dot, pt):
+
+    for c in pt.children():
+
+        logging.info("add node %s" % str(c))
+
+        args = node_args(c)
+        dot.add_node(str(c), **args)
+
+        logging.info("add %s -> %s" % (str(pt), str(c)))
+        dot.add_edge(str(pt), str(c), dir="forward")
+
+        graph_kids(dot, c)
+
+if __name__ == '__main__':
+
+    import optparse
+    opt_parser = optparse.OptionParser()
+
+    opt_parser.add_option('-p', '--placetype', dest='placetype', action='store', default='planet', help='The root placetype to graph (default is planet)')
+    opt_parser.add_option('-o', '--out', dest='out', action='store', default='graph.png', help='The path to store the rendered graph (default is graph.png)')
+
+    opt_parser.add_option('-v', '--verbose', dest='verbose', action='store_true', default=False, help='Be chatty (default is false)')
+
+    options, args = opt_parser.parse_args()
+
+    if options.verbose:	
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.INFO)
+
+    dot = pygraphviz.AGraph(directed=True)
+
+    pt = mapzen.whosonfirst.placetypes.placetype(options.placetype)
+
+    logging.info("add node %s" % str(pt))
+
+    args = node_args(pt)
+    dot.add_node(str(pt), **args)
+
+    graph_kids(dot, pt)
+
+    dot.layout(prog='dot')
+    dot.draw(options.out)
