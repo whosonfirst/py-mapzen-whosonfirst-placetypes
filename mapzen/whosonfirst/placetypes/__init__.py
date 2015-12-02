@@ -90,6 +90,17 @@ class placetype:
         for p in self.details['parent']:
             yield placetype(p)
 
+    def children(self):
+
+        id = self.details['id']
+        id = int(id)
+
+        for other_id, details in __SPEC__.items():
+
+            if id in details['parent']:
+                yield placetype(details['name'])
+
+
     def ancestors(self, roles=['common'], ancestors=[]):
 
         for p in self.parents():
