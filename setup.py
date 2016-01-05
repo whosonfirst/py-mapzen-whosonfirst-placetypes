@@ -8,7 +8,7 @@ desc = open("README.md").read(),
 setup(
     name='mapzen.whosonfirst.placetypes',
     namespace_packages=['mapzen', 'mapzen.whosonfirst', 'mapzen.whosonfirst.placetypes'],
-    version='0.10',
+    version='0.11',
     description='Simple Python wrapper for managing Who\'s On First placetypes',
     author='Mapzen',
     url='https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes',
@@ -24,5 +24,5 @@ setup(
     scripts=[
         'scripts/wof-graph-placetypes'
         ],
-    download_url='https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes/releases/tag/v0.10',
+    download_url='https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes/releases/tag/v0.11',
     license='BSD')

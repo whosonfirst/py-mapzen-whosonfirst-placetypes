@@ -154,11 +154,12 @@ def with_roles(roles):
 
     placetypes = []
 
-    for pt, details in __PLACETYPES__.items():
+    for id, details in __SPEC__.items():
 
         if not details.get('role', None) in roles:
             continue
-            
+          
+        pt = details['name']
         placetypes.append(pt)
 
     return placetypes
