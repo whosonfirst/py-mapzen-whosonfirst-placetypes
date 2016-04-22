@@ -95,11 +95,42 @@ class placetype:
         id = self.details['id']
         id = int(id)
 
+        all = []
+
         for other_id, details in __SPEC__.items():
 
             if id in details['parent']:
-                yield placetype(details['name'])
+                all.append(details['name'])
 
+        for pt in self.sort_children(all):
+            yield placetype(pt)
+
+    def sort_children(self, all):
+
+        kids = []
+        grandkids = []
+
+        for p in all:
+            
+            pt = placetype(p)
+            is_grandkid = False
+
+            for pr in pt.parents():
+
+                if str(pr) in all:
+                    is_grandkid = True
+                    break
+                
+            if is_grandkid:
+                grandkids.append(p)
+            else:
+                kids.append(p)
+
+        if len(grandkids):
+            grandkids = self.sort_children(grandkids)
+
+        kids.extend(grandkids)
+        return kids
 
     def ancestors(self, roles=['common'], ancestors=[]):
 
@@ -114,6 +145,36 @@ class placetype:
             p.ancestors(roles, ancestors)
 
         return ancestors
+
+    def descendents(self, roles=['common'], descendents=[]):
+
+        grandkids = []
+
+        for p in self.children():
+
+            name = str(p)
+            role = p.details['role']
+
+            if not name in descendents and role in roles:
+                descendents.append(str(p))
+
+                for pp in p.children():
+
+                    name = str(pp)
+                    role = pp.details['role']
+                    
+                    if not name in grandkids and role in roles:
+                        grandkids.append(str(pp))
+
+        for str_pt in grandkids:
+
+            if not str_pt in descendents:
+                descendents.append(str_pt)
+
+            pt = placetype(str_pt)
+            pt.descendents(roles, descendents)
+
+        return descendents
             
     def __str__(self):
         return self.placetype
