@@ -1,6 +1,3 @@
-# https://pythonhosted.org/setuptools/setuptools.html#namespace-packages
-__import__('pkg_resources').declare_namespace(__name__)
-
 # Generated from: https://github.com/whosonfirst/whosonfirst-placetypes/blob/master/bin/compile.py
 # placetypes-spec-201601115.json
 
