@@ -24,6 +24,14 @@ for id, details in __SPEC__.items():
     __PLACETYPES__[name] = {
         'id': id,
         'role': role,
+        'name': name,
+        'parent': parents
+    }
+
+    __PLACETYPES__[str(id)] = {
+        'id': id,
+        'role': role,
+        'name': name,
         'parent': parents
     }
 
@@ -64,10 +72,12 @@ class placetype:
     
     def __init__(self, pl):
 
+        pl = str(pl)
+
         if not __PLACETYPES__.get(pl, False):
             raise Exception, "Invalid placetype, %s" % pl
 
-        self.placetype = pl
+        self.placetype = __PLACETYPES__[pl]['name']
         self.details = __PLACETYPES__[pl]
 
     def id(self):
