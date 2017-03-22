@@ -24,14 +24,6 @@ setup(
     description='Simple Python wrapper for managing Who\'s On First placetypes',
     author='Mapzen',
     url='https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes',
-    install_requires=[
-        # note that we are not requiring pygraphviz (used by the wof-graph-placetypes
-        # script below) here since that seems like an excessive dependency which maybe
-        # means the script should be in a separate which is a thing that could happen
-        # ... but not today (20151202/thisisaaronland)
-        ],
-    dependency_links=[
-        ],
     packages=packages,
     scripts=[
         'scripts/wof-graph-placetypes'

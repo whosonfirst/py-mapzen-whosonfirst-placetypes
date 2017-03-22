@@ -1,5 +1,11 @@
 # py-mapzen-whosonfirst-placetypes
 
+## Install
+
+```
+sudo pip install -r requirements.txt .
+```
+
 ## Important
 
 The specification for placetypes is derived from the [whosonfirst-placetypes](https://github.com/whosonfirst/whosonfirst-placetypes) package. For example:

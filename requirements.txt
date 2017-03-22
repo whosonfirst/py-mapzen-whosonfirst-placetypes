@@ -1,1 +1,4 @@
-# there are none
+# note that we are not requiring pygraphviz (used by the wof-graph-placetypes
+# script below) here since that seems like an excessive dependency which maybe
+# means the script should be in a separate which is a thing that could happen
+# ... but not today (20151202/thisisaaronland)
