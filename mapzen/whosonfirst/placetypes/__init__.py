@@ -135,31 +135,36 @@ class placetype:
         kids.extend(grandkids)
         return kids
 
-    def ancestors(self, roles=['common'], ancestors=[]):
+    def ancestors(self, roles=['common'], _ancestors=[]):
 
         for p in self.parents():
 
             name = str(p)
             role = p.details['role']
 
-            if not name in ancestors and role in roles:
-                ancestors.append(str(p))
+            if not name in _ancestors and role in roles:
+                _ancestors.append(str(p))
 
-            p.ancestors(roles, ancestors)
+            p.ancestors(roles, _ancestors)
 
-        return ancestors
+        return _ancestors
 
-    def descendents(self, roles=['common'], descendents=[]):
+    def descendents(self, roles=['common'], _descendants=[]):
+        return self.descendants(roles, _descendants)
+
+    def descendants(self, roles=['common'], _descendants=[]):
+
+        # print "> get descendants for %s w/ %s (%s)" % (self.placetype, ",".join(roles), "|".join(_descendants))
 
         grandkids = []
-
+        
         for p in self.children():
 
             name = str(p)
             role = p.details['role']
 
-            if not name in descendents and role in roles:
-                descendents.append(str(p))
+            if not name in _descendants and role in roles:
+                _descendants.append(str(p))
 
                 for pp in p.children():
 
@@ -171,13 +176,13 @@ class placetype:
 
         for str_pt in grandkids:
 
-            if not str_pt in descendents:
-                descendents.append(str_pt)
+            if not str_pt in _descendants:
+                _descendants.append(str_pt)
 
             pt = placetype(str_pt)
-            pt.descendents(roles, descendents)
+            pt.descendants(roles, _descendants)
 
-        return descendents
+        return _descendants
             
     def __str__(self):
         return self.placetype
