@@ -90,8 +90,13 @@ class placetype:
 
     def parents(self):
 
+        # print "* get parents for %s (%s)" % (self.details['name'], ";".join(self.details['parent']))
+
         for p in self.details['parent']:
+            # print "\tyield %s for %s" % (p, self.details['name'])
             yield placetype(p)
+
+        # print "\t** done for %s" % self.details['name']
 
     def children(self):
 
@@ -135,7 +140,25 @@ class placetype:
         kids.extend(grandkids)
         return kids
 
-    def ancestors(self, roles=['common'], _ancestors=[]):
+    def ancestors(self, roles=['common'], *args):
+
+        # because this: https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes/issues/3
+        # basically it's apparently a "feature" of python that the _ancestors=[] array in the 
+        # method signature below gets instantiated when the method is *compiled* rather than
+        # instantiated for reasons that I have trouble imagining. anyway, we're just going to 
+        # deal with it by wrapping the actual code that recurses through ancestors and force a
+        # new array... computers, amirite? (20170512/thisisaaronland)
+
+        ancestors = []
+
+        if len(args):
+            ancestors = args[0]
+
+        return self._fetch_ancestors(roles, ancestors)
+
+    def _fetch_ancestors(self, roles=['common'], _ancestors=[]):
+
+        # print "get ancestors for %s w/ %s" % (self.details['name'], ";".join(_ancestors))
 
         for p in self.parents():
 
@@ -145,14 +168,28 @@ class placetype:
             if not name in _ancestors and role in roles:
                 _ancestors.append(str(p))
 
-            p.ancestors(roles, _ancestors)
+            # print "\t<< get ancestors for %s" % p
+
+            p._fetch_ancestors(roles, _ancestors)
 
         return _ancestors
 
-    def descendents(self, roles=['common'], _descendants=[]):
-        return self.descendants(roles, _descendants)
+    def descendents(self, roles=['common'], *args):
+        return self.descendants(roles, *args)
 
-    def descendants(self, roles=['common'], _descendants=[]):
+    def descendants(self, roles=['common'], *args):
+
+        # see notes above in the 'ancestors' for why we're doing this
+        # basically we can not have nice things...
+
+        descendants = []
+
+        if len(args):
+            descendants = args[0]
+
+        return self._fetch_descendants(roles, descendants)
+
+    def _fetch_descendants(self, roles=['common'], _descendants=[]):
 
         # print "> get descendants for %s w/ %s (%s)" % (self.placetype, ",".join(roles), "|".join(_descendants))
 
@@ -180,7 +217,7 @@ class placetype:
                 _descendants.append(str_pt)
 
             pt = placetype(str_pt)
-            pt.descendants(roles, _descendants)
+            pt._fetch_descendants(roles, _descendants)
 
         return _descendants
             
