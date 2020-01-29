@@ -105,7 +105,7 @@ class placetype:
 
         all = []
 
-        for other_id, details in list(spec.__SPEC__.items()):
+        for other_id, details in spec.__SPEC__.items():
 
             if id in details['parent']:
                 all.append(details['name'])
