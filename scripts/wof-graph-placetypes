@@ -17,14 +17,14 @@ def node_args(pt):
         'common_optional': 'green',
         'optional': 'yellow'
     }
-    
+
     args = {
         'shape': 'box',
         'color': colour_map.get(pt.role(), 'white')
     }
 
     return args
-    
+
 def graph_kids(dot, pt):
 
     for c in pt.children():
@@ -51,7 +51,7 @@ if __name__ == '__main__':
 
     options, args = opt_parser.parse_args()
 
-    if options.verbose:	
+    if options.verbose:
         logging.basicConfig(level=logging.DEBUG)
     else:
         logging.basicConfig(level=logging.INFO)
