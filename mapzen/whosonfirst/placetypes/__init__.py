@@ -1,4 +1,4 @@
-import spec	# as in utils/mk-spec.py > mapzen/whosonfirst/placetypes/spec.py
+from . import spec	# as in utils/mk-spec.py > mapzen/whosonfirst/placetypes/spec.py
 
 # This is mostly for efficiency of the moment so I don't have to rewrite
 # all the code below (20150807/thisisaaronland)
@@ -40,7 +40,7 @@ for id, details in spec.__SPEC__.items():
             continue
 
         for alt in alts:
-            
+
             if not __PLACETYPES__.get(alt, False):
                 __PLACETYPES__[alt] = __PLACETYPES__[name]
 
@@ -50,7 +50,7 @@ for id, details in spec.__SPEC__.items():
     # alt names and roles?
 
 class placetypename:
-    
+
     def __init__(self, label, name):
 
         lang, kind = label.split("_")
@@ -60,18 +60,18 @@ class placetypename:
 
     def __str__(self):
         return self.name
-        
+
     def __repr__(self):
         return self.name
 
 class placetype:
-    
+
     def __init__(self, pl):
 
         pl = str(pl)
 
         if not __PLACETYPES__.get(pl, False):
-            raise Exception, "Invalid placetype, %s" % pl
+            raise Exception("Invalid placetype, %s" % pl)
 
         self.placetype = __PLACETYPES__[pl]['name']
         self.details = __PLACETYPES__[pl]
@@ -119,7 +119,7 @@ class placetype:
         grandkids = []
 
         for p in all:
-            
+
             pt = placetype(p)
             is_grandkid = False
 
@@ -128,7 +128,7 @@ class placetype:
                 if str(pr) in all:
                     is_grandkid = True
                     break
-                
+
             if is_grandkid:
                 grandkids.append(p)
             else:
@@ -143,9 +143,9 @@ class placetype:
     def ancestors(self, roles=['common'], *args):
 
         # because this: https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes/issues/3
-        # basically it's apparently a "feature" of python that the _ancestors=[] array in the 
+        # basically it's apparently a "feature" of python that the _ancestors=[] array in the
         # method signature below gets instantiated when the method is *compiled* rather than
-        # instantiated for reasons that I have trouble imagining. anyway, we're just going to 
+        # instantiated for reasons that I have trouble imagining. anyway, we're just going to
         # deal with it by wrapping the actual code that recurses through ancestors and force a
         # new array... computers, amirite? (20170512/thisisaaronland)
 
@@ -194,7 +194,7 @@ class placetype:
         # print "> get descendants for %s w/ %s (%s)" % (self.placetype, ",".join(roles), "|".join(_descendants))
 
         grandkids = []
-        
+
         for p in self.children():
 
             name = str(p)
@@ -207,7 +207,7 @@ class placetype:
 
                     name = str(pp)
                     role = pp.details['role']
-                    
+
                     if not name in grandkids and role in roles:
                         grandkids.append(str(pp))
 
@@ -220,7 +220,7 @@ class placetype:
             pt._fetch_descendants(roles, _descendants)
 
         return _descendants
-            
+
     def __str__(self):
         return self.placetype
 
@@ -250,7 +250,7 @@ def optional():
 
 def is_valid_role(role):
 
-    return __ROLES__.has_key(role)
+    return role in __ROLES__
 
 def with_role(role):
     return with_roles([role])
@@ -263,7 +263,7 @@ def with_roles(roles):
 
         if not details.get('role', None) in roles:
             continue
-          
+
         pt = details['name']
         placetypes.append(pt)
 
@@ -272,12 +272,12 @@ def with_roles(roles):
 if __name__ == '__main__':
 
     pt = placetype('neighbourhood')
-    print pt
+    print(pt)
 
     for p in pt.parents():
-        print p
-    
-    print "--"
+        print(p)
+
+    print("--")
 
     for a in pt.ancestors():
-        print a
+        print(a)
