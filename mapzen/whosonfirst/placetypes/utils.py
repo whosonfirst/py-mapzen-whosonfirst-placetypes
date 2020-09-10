@@ -16,7 +16,7 @@ def placetypes_from_options(options, **kwargs):
 def placetypes_from_flags_unfiltered(options, **kwargs):
 
     placetypes_flag = kwargs.get('placetypes_flag', 'placetypes')
-    roles_flag = kwargs.get('roles_flag', 'roles')
+    # roles_flag = kwargs.get('roles_flag', 'roles')
 
     placetypes = optstring_to_list(options, placetypes_flag)
 
