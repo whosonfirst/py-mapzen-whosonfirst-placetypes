@@ -27,6 +27,8 @@ def node_args(pt):
 
 def graph_kids(dot, pt):
 
+    logging.info("graph kids for %s", str(pt))
+    
     for c in pt.children():
 
         logging.info("add node %s" % str(c))
